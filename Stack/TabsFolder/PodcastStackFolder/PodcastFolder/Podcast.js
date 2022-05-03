@@ -5,13 +5,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { TextInput } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import Slider from '@react-native-community/slider'
-import { useState } from 'react';
+import { useState, useCallback, useMemo, useRef } from 'react';
+import BottomSheet from '@gorhom/bottom-sheet';
+
 
 
 
 export default function Podcast({ navigation }) {
 
-    const dispatch = useDispatch()
     var podcast = [
         'fdlkfdk',
         'lsngfkls',
@@ -29,6 +30,8 @@ export default function Podcast({ navigation }) {
     var podcasterName = useSelector(state => (
         state.findPodcaster.podcasterName
     ))
+
+
     Audio.setAudioModeAsync({
         allowsRecordingIOS: false,
         staysActiveInBackground: true,
@@ -38,6 +41,8 @@ export default function Podcast({ navigation }) {
         interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS,
         playThroughEarpieceAndroid: false
     });
+
+
 
     //ToastAndroid.show(podcasterName, ToastAndroid.SHORT)
 
@@ -49,7 +54,7 @@ export default function Podcast({ navigation }) {
     return (
         <SafeAreaView style={{ flex: 1, flexDirection: 'column-reverse' }}>
 
-            <ScrollView>
+            <ScrollView nestedScrollEnabled>
                 <View style={{ flex: 1, flexDirection: 'column' }}>
                     <View>
                         <Text style={{ color: '#1251A0', fontWeight: 'bold', marginTop: 50, marginStart: 20, fontSize: 40 }}>
@@ -67,8 +72,7 @@ export default function Podcast({ navigation }) {
                         <View style={{ marginTop: 10, width: '100%' }}>
                             <TouchableOpacity
                                 onPress={() => {
-                                    dispatch({ type: 'stopRadio' })
-                                    Audio.setIsEnabledAsync(false)
+
                                     navigation.navigate('Podcasters')
 
                                 }}
@@ -89,6 +93,7 @@ export default function Podcast({ navigation }) {
                         <FlatList
                             nestedScrollEnabled
                             numColumns={2}
+                            keyExtractor={(item, index) => index}
                             data={podcast}
                             renderItem={({ item }) => (
                                 <TouchableOpacity
@@ -106,57 +111,10 @@ export default function Podcast({ navigation }) {
                         />
                     </View>
 
+
+
                 </View>
             </ScrollView>
-
-
-
-            <View style={{ height: 70, alignSelf: 'center', backgroundColor: '#1251A0', position: 'absolute', flex: 1, flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
-
-                <View style={{ flexDirection: 'column', width: '80%', justifyContent: 'space-around' }}>
-                    <Text style={{ marginStart: 20 }}>
-                        Title
-                    </Text>
-                    <Slider
-                        maximumValue={duration}
-                        minimumValue={0}
-                        value={currentTime}
-                        style={{ width: '100%', marginBottom: 10 }}
-                        onValueChange={async (value) => {
-                            await sound_.setPositionAsync(value)
-                            await sound_.playAsync()
-                        }}
-                    />
-                </View>
-
-                <TouchableOpacity
-                    onPress={async () => {
-                        Audio.setIsEnabledAsync(true)
-                        const { sound, status } = await Audio.Sound.createAsync({
-                            uri: 'https://www2.cs.uic.edu/~i101/SoundFiles/CantinaBand60.wav'
-                        },
-
-                            { shouldPlay: true },
-                            (status) => {
-                                const p = JSON.stringify(status)
-                                const l = JSON.parse(p)
-                                setCurrentTime(l.positionMillis)
-                            },
-                        )
-
-                        await sound.playAsync()
-                        await sound.getStatusAsync().then(result => {
-                            setDuration(result.durationMillis)
-                            setSound(sound)
-                        })
-                    }}
-
-                    style={{ alignSelf: 'center', marginEnd: 15, width: '20%', }}>
-                    <Image source={require('../../../../assets/play.png')} style={{ alignSelf: 'center', marginEnd: 10, height: 30, width: 30 }} />
-
-                </TouchableOpacity>
-
-            </View>
 
         </SafeAreaView>
     );

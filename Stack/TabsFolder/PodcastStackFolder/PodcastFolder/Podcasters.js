@@ -69,7 +69,7 @@ export default function Podcasters({ navigation }) {
 
             <View style={{ flex: 1 }}>
                 <FlatList
-
+                    keyExtractor={(item, index) => index}
                     data={list}
                     renderItem={({ item }) => {
                         return (

@@ -1,20 +1,28 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { StatusBar } from 'expo-status-bar';
-import { Image, StyleSheet, Text, TouchableOpacity, View, ToastAndroid, ScrollView } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View, ToastAndroid, ScrollView, DeviceEventEmitter, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Audio } from 'expo-av';
 import Swiper from 'react-native-swiper'
 import { useDispatch, useSelector } from 'react-redux';
 
+
+
 export default function Radio() {
 
     const dispatch = useDispatch()
 
-    const isPlaying = useSelector(state => (
+    var isPlaying = useSelector(state => (
         state.storeRedux.isPlaying
     ))
 
+
+    var [clickAble, setClickAble] = useState(false)
+
+    console.log(isPlaying + '---------------------------------')
+
     var [radio, setRadio] = useState()
+
 
     Audio.setAudioModeAsync({
         allowsRecordingIOS: false,
@@ -27,20 +35,27 @@ export default function Radio() {
     });
 
     async function playRadio() {
-        Audio.setIsEnabledAsync(true)
-
+        await Audio.setIsEnabledAsync(true)
         const { sound } = await Audio.Sound.createAsync({
             uri: 'https://listen.radioking.com/radio/261427/stream/306436'
         })
         setRadio(sound)
         await sound.playAsync()
+        sound.getStatusAsync().then(state => {
+            if (state.isPlaying) {
+                setClickAble(false)
+
+            } else {
+                setClickAble(true)
+            }
+        })
+
 
     }
 
     async function stopRadio() {
         setRadio(undefined)
-        await radio.unloadAsync()
-
+        await Audio.setIsEnabledAsync(false)
     }
 
     var listSoir = [
@@ -133,7 +148,7 @@ export default function Radio() {
         <SafeAreaView style={{ flex: 1, flexDirection: 'column', alignItems: 'center', width: '100%' }}>
 
             <ScrollView style={{ flex: 1, flexDirection: 'column', width: '100%' }}>
-                <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+                <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', width: '100%', marginTop: 70 }}>
                     <View style={{ flexDirection: 'column-reverse', paddingBottom: 50, marginTop: 20 }}>
 
                         <View style={{ backgroundColor: 'white', padding: 100, borderRadius: 50 }}>
@@ -143,14 +158,20 @@ export default function Radio() {
                         <View style={{ alignSelf: 'center', position: 'absolute', backgroundColor: '#000000', height: 70, width: 70, justifyContent: 'center', alignItems: 'center', borderRadius: 100 }}>
 
                             <TouchableOpacity
-                                onPress={() => {
+                                disabled={clickAble}
+                                onPress={async () => {
+                                    setClickAble(true)
+                                    await Audio.setIsEnabledAsync(false)
                                     switch (isPlaying) {
                                         case true: {
+                                            isPlaying = false
                                             dispatch({ type: 'stopRadio' })
                                             stopRadio()
+                                            setClickAble(false)
                                             break
                                         }
                                         case false: {
+                                            isPlaying = true
                                             dispatch({ type: 'startRadio' })
                                             playRadio()
                                             break
@@ -174,8 +195,8 @@ export default function Radio() {
                         </Text>
                     </View>
 
-                    <View style={{ width: '100%', marginTop: 25 }}>
-                        <Text style={{ color: '#1251A0', fontWeight: 'bold', fontSize: 35, alignSelf: 'center' }}>
+                    <View style={{ marginTop: 25, backgroundColor: '#1251A0', borderTopStartRadius: 30, borderTopEndRadius: 30, paddingTop: 30, marginStart: 20, marginEnd: 20 }}>
+                        <Text style={{ color: '#ffffff', fontWeight: 'bold', fontSize: 35, alignSelf: 'center' }}>
                             Programmes
                         </Text>
                         <View style={{ flexDirection: 'row', alignSelf: 'center', marginTop: 5, borderRadius: 20, }}>
@@ -183,6 +204,7 @@ export default function Radio() {
                             <Swiper
                                 autoplay
                                 pagingEnabled
+
                                 autoplayTimeout={3}
                                 style={{ paddingBottom: 30, flexDirection: 'row', height: 400 }}
                             >
@@ -225,7 +247,9 @@ export default function Radio() {
                     </View>
                 </View>
             </ScrollView>
-        </SafeAreaView>
+
+
+        </SafeAreaView >
     );
 }
 

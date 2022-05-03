@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Topics() {
 
-    var [backColor, setBackColor] = useState('#ffffff')
+    var [backColor, setBackColor] = useState('#1251A0')
 
     var listItems = ["dsjkgkjs", "dsjkgkjs", "dsjkgkjs", "dsjkgkjs", "dsjkgkjs", "dsjkgkjs", "dsjkgkjs", "dsjkgkjs", "dsjkgkjs", "dsjkgkjs",
         "dsjkgkjs",
@@ -14,7 +14,7 @@ export default function Topics() {
         "dsjkgkjs",
 
     ]
-    var [clickItem, setClickItem] = useState('')
+    var [clickItem, setClickItem] = useState('Toutes')
 
     const listCategories = ["Toutes", "Culture", "France", "International", "Israel", "Judaisme"]
     return (

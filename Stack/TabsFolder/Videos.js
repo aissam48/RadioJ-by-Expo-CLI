@@ -1,11 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TouchableOpacity, View, FlatList } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, FlatList, Image, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Audio } from 'expo-av';
 import { ScrollView } from 'react-native-gesture-handler';
+import { WebView } from 'react-native-webview';
+import YoutubePlayer from "react-native-youtube-iframe";
 
 
-export default function Videos() {
+export default function Videos({ navigation }) {
 
     var podcast = [
         'fdlkfdk',
@@ -46,29 +48,52 @@ export default function Videos() {
                         </Text>
                     </View>
 
-                    <View style={{ flex: 1, marginTop: 50, marginStart: 15, marginEnd: 15 }}>
+                    <View style={{ marginTop: 15 }}>
+                        <YoutubePlayer
+                            height={270}
+                            playList={'PLbpi6ZahtOH6Blw3RGYpWkSByi_T7Rygb'}
 
-                        <View style={{ alignSelf: 'center', flex: 1, width: '100%' }}>
-                            <FlatList
-                                nestedScrollEnabled
-                                numColumns={2}
-                                data={podcast}
-                                renderItem={({ item }) => (
-                                    <View style={{ borderRadius: 20, flex: 1, flexDirection: 'column', alignSelf: 'center', margin: 5, height: 200, backgroundColor: '#ffffff' }}>
-                                        <Text style={{ alignItems: 'center' }}>{item}</Text>
-                                    </View>
-                                )}
-                            />
-                        </View>
-
+                        />
                     </View>
+
+
+
+
+                    <View style={{ alignSelf: 'center', flex: 1, width: '100%' }}>
+                        <FlatList
+                            nestedScrollEnabled
+                            keyExtractor={(item, index) => index}
+
+                            data={podcast}
+                            renderItem={({ item }) => {
+
+
+                                const wi = Dimensions.get('screen').width
+                                return (
+
+                                    <TouchableOpacity style={{ flexDirection: 'column', alignSelf: 'center', width: wi - 20 }}>
+
+                                        <Image source={require('../../assets/pngvideo.jpg')} style={{ borderRadius: 20, height: 250, width: wi - 25, alignSelf: 'center' }} />
+
+                                        <View style={{ marginBottom: 25, flexDirection: 'row', justifyContent: 'space-between', width: wi - 35, alignSelf: 'center' }}>
+                                            <Text >lskdglksjfld,gdsklg, smeofkeso sdlkfqekof dsmlfkmq qùpfrkpose ljhi egpkfdsfmefjk</Text>
+                                            <Text style={{ fontWeight: 'bold' }}>15:37</Text>
+                                        </View>
+                                    </TouchableOpacity>
+
+                                )
+                            }}
+                        />
+                    </View>
+
+
                 </View>
             </ScrollView>
 
 
 
 
-        </SafeAreaView>
+        </SafeAreaView >
     );
 }
 
