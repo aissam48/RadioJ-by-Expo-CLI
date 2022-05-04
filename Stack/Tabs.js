@@ -2,6 +2,11 @@ import * as React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+
 
 const Tab = createBottomTabNavigator();
 
@@ -61,7 +66,7 @@ function findPodcaster(state = { podcasterName: 'Toutes' }, action) {
     }
 }
 
-function playPodcast(state = { podcastData: 'Emty' }, action) {
+function playPodcast(state = { podcastData: 'Empty' }, action) {
     switch (action.type) {
         case 'playThis': {
             return ({
@@ -82,11 +87,31 @@ export default function Tabs() {
         <Provider store={store}>
             <NavigationContainer independent={true}>
                 <Tab.Navigator>
-                    <Tab.Screen name="Radio" component={Radio} options={{ headerShown: false }} />
-                    <Tab.Screen name="Podcasts" component={Podcast} options={{ headerShown: false }} />
-                    <Tab.Screen name="Categories" component={Categories} options={{ headerShown: false }} />
-                    <Tab.Screen name="Videos" component={Videos} options={{ headerShown: false }} />
-                    <Tab.Screen name="Contact" component={Contact} options={{ headerShown: false }} />
+                    <Tab.Screen name="Radio" component={Radio} options={{
+                        headerShown: false, tabBarIcon: (fo, co, si) => (
+                            <Ionicons name='radio' size={25} color={'#000000'} />
+                        )
+                    }} />
+                    <Tab.Screen name="Podcasts" component={Podcast} options={{
+                        headerShown: false, tabBarIcon: (fo, co, si) => (
+                            <MaterialCommunityIcons name='google-podcast' size={25} color={'#000000'} />
+                        )
+                    }} />
+                    <Tab.Screen name="Actualites" component={Categories} options={{
+                        headerShown: false, tabBarIcon: (fo, co, si) => (
+                            <FontAwesome5 name='book-reader' size={25} color={'#000000'} />
+                        )
+                    }} />
+                    <Tab.Screen name="Videos" component={Videos} options={{
+                        headerShown: false, tabBarIcon: (fo, co, si) => (
+                            <MaterialCommunityIcons name='youtube-tv' size={25} color={'#000000'} />
+                        )
+                    }} />
+                    <Tab.Screen name="Contact" component={Contact} options={{
+                        headerShown: false, tabBarIcon: (fo, co, si) => (
+                            <Ionicons name='call' size={25} color={'#000000'} />
+                        )
+                    }} />
                 </Tab.Navigator>
             </NavigationContainer>
         </Provider>

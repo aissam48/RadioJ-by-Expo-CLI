@@ -42,11 +42,11 @@ export default function PodcastsPlayList({ navigation }) {
 
                     <View style={{ flexDirection: 'row', marginTop: 35, width: '100%' }}>
 
-                        <View style={{ width: '40%', backgroundColor: '#ffffff', padding: 10, marginStart: 20, borderRadius: 20, height: 150 }}>
-                            <Image source={require('../../../../assets/radiojlogo.png')} style={{ height: '100%', width: '100%' }} />
+                        <View style={{ width: '40%', backgroundColor: '#ffffff', marginStart: 20, borderRadius: 20, height: 150 }}>
+                            <Image source={require('../../../../assets/jou.png')} style={{ height: '100%', width: '100%', borderRadius: 10 }} />
                         </View>
                         <View style={{ width: '60%' }}>
-                            <Text style={{ marginStart: 15, marginEnd: 20, fontSize: 17, fontWeight: 'bold' }}>Le Journal de la Info Week-end de Christophe Dard</Text>
+                            <Text style={{ marginStart: 15, marginEnd: 20, fontSize: 17, fontWeight: 'bold' }}>Sefarim</Text>
                         </View>
                     </View>
 
@@ -56,11 +56,11 @@ export default function PodcastsPlayList({ navigation }) {
 
                     <View style={{ flexDirection: 'row', marginTop: 15, width: '100%' }}>
 
-                        <View style={{ height: 70, width: 70, backgroundColor: '#ffffff', padding: 10, marginStart: 20, borderRadius: 10 }}>
-                            <Image source={require('../../../../assets/radiojlogo.png')} style={{ height: '100%', width: '100%' }} />
+                        <View style={{ height: 70, width: 70, backgroundColor: '#ffffff', marginStart: 20, borderRadius: 10 }}>
+                            <Image source={require('../../../../assets/jou.png')} style={{ height: '100%', width: '100%', borderRadius: 10 }} />
                         </View>
                         <View style={{ width: '70%' }}>
-                            <Text style={{ marginStart: 15, marginEnd: 20, fontSize: 12, fontWeight: 'bold' }}>Christophe Dard</Text>
+                            <Text style={{ marginStart: 15, marginEnd: 20, fontSize: 12, fontWeight: 'bold' }}>Michel Zerbib</Text>
                         </View>
                     </View>
 
@@ -70,9 +70,7 @@ export default function PodcastsPlayList({ navigation }) {
                             <Text
                                 numberOfLines={numLines}
                             >
-                                Titulaire d’un Master 2 d’histoire contemporaine à l’Université Paris 1 Panthéon-Sorbonne et diplômé d’une école de radio, le Studio École de France, Christophe Dard a travaillé dans de nombreux médias ces dix dernières années. Il a exercé plusieurs fonctions en radio (Judaïques FM, Europe 1) et en télé (CNews). Il a aussi écrit des séries de podcasts (Pèlerins dans l’âme, Marseille sans galéjade!, Serge Gainsbourg L’insolent et Françoise Sagan L’espiègle).
-                                Actuellement journaliste pour l’émission de Franck Ferrand sur Radio Classique et pour le site Toute la Culture.com ainsi qu’attaché de production à France Info, Christophe Dard rejoint l’équipe de la matinale de Radio J en septembre 2020. Du lundi au jeudi, il présente les journaux, les rappels des titres et la chronique L’Histoire des Juifs de France.
-                            </Text>
+                                Sefarim ( les livres ) c’est le nouveau rendez-vous de l’actualité vivante des livres et des auteurs . SEFARIM conversations avec Michel Zerbib pour découvrir des écrivains que l’on croit connaître , tous les samedi à 21h30 sur RADIO J. </Text>
                             <TouchableOpacity
                                 onPress={() => {
 
@@ -93,13 +91,12 @@ export default function PodcastsPlayList({ navigation }) {
                                 </Text>
                             </TouchableOpacity>
 
-
                         </View>
                     </View>
 
                     <View style={{ marginTop: 35, width: '100%' }}>
 
-                        <Text style={{ fontWeight: 'bold', marginStart: 20, fontSize: 20 }}> Les podcasts</Text>
+                        <Text style={{ fontWeight: 'bold', marginStart: 20, fontSize: 20 }}> Les Podcasts</Text>
 
                     </View>
 

@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 
+
 export default function Radio() {
 
     const dispatch = useDispatch()
@@ -204,7 +205,6 @@ export default function Radio() {
                             <Swiper
                                 autoplay
                                 pagingEnabled
-
                                 autoplayTimeout={3}
                                 style={{ paddingBottom: 30, flexDirection: 'row', height: 400 }}
                             >

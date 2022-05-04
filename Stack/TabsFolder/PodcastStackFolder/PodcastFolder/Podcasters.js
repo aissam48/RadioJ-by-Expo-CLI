@@ -31,25 +31,25 @@ export default function Podcasters({ navigation }) {
     return (
         <SafeAreaView style={{ flex: 1, flexDirection: 'column' }}>
 
-            <View style={{ marginTop: 10 }}>
+            <View style={{ marginTop: 20, marginStart: 5 }}>
                 <TouchableOpacity
                     onPress={() => {
                         navigation.pop()
                     }}
                 >
-                    <Image source={require('../../../../assets/play.png')} style={{ marginStart: 20, height: 50, width: 50 }} />
-
+                    <Image source={require('../../../../assets/back.png')} style={{ height: 30, width: 30 }} />
                 </TouchableOpacity>
             </View>
             <View>
                 <Text style={{ color: '#1251A0', fontWeight: 'bold', marginTop: 20, marginStart: 20, fontSize: 40 }}>
-                    Podcasters
+                    Journalistes
                 </Text>
             </View>
 
             <View style={{ marginTop: 10, width: '100%' }}>
                 <TextInput
-                    style={{ fontSize: 18, color: '#ffffff', margin: 20, height: 50, backgroundColor: '#29C5F6', borderRadius: 20, paddingStart: 10, paddingEnd: 10 }}
+                    placeholder='Trouver un(e) journalist(e)...'
+                    style={{ fontSize: 18, color: '#000000', margin: 20, height: 50, backgroundColor: '#ffffff', borderRadius: 20, paddingStart: 10, paddingEnd: 10 }}
                     onChangeText={(text) => {
                         switch (text.length) {
                             case 0: {
@@ -73,7 +73,7 @@ export default function Podcasters({ navigation }) {
                     data={list}
                     renderItem={({ item }) => {
                         return (
-                            <View style={{ paddingTop: 15, paddingBottom: 15, marginTop: 5, flex: 1, backgroundColor: 'white', width: '100%' }}>
+                            <View style={{ paddingTop: 15, paddingBottom: 15, marginTop: 5, flex: 1, backgroundColor: 'white', marginStart: 20, marginEnd: 20, borderRadius: 20 }}>
 
                                 <TouchableOpacity
                                     onPress={() => {
@@ -81,7 +81,7 @@ export default function Podcasters({ navigation }) {
                                         navigation.pop()
                                     }}
                                 >
-                                    <Text style={{ marginStart: 20 }}>
+                                    <Text style={{ marginStart: 20, fontWeight: 'bold' }}>
                                         {item}
                                     </Text>
                                 </TouchableOpacity>

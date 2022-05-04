@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, FlatList } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, FlatList, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Topics() {
@@ -21,7 +21,7 @@ export default function Topics() {
         <SafeAreaView style={{ flex: 1, flexDirection: 'column' }}>
             <View>
                 <Text style={{ color: '#1251A0', fontWeight: 'bold', marginTop: 50, marginStart: 20, fontSize: 40 }}>
-                    Categories
+                    Actualites
                 </Text>
             </View>
 
@@ -53,14 +53,26 @@ export default function Topics() {
                 <FlatList
                     numColumns={2}
                     data={listItems}
+                    keyExtractor={(item, index) => index}
+
                     renderItem={({ item }) => {
 
                         return (
-                            <View style={{ justifyContent: 'center', flexDirection: 'column', borderRadius: 10, flex: 1, height: 200, backgroundColor: "#1251A0", margin: 5 }}>
+                            <View style={{ borderRadius: 10, flex: 1, height: 200, backgroundColor: "#ffffff", margin: 5 }}>
+                                <TouchableOpacity
+                                    style={{ flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', height: '100%', width: '100%' }}
+                                >
 
-                                <TouchableOpacity>
-                                    <Text style={{ alignSelf: 'center' }}>{item}</Text>
+                                    <View style={{ backgroundColor: '#000000', height: '60%', width: '90%', borderRadius: 20, marginTop: 10 }}>
+                                        <Image source={require('../../../../assets/radiojlogo.png')} style={{ borderRadius: 20, height: '100%', width: '100%' }} />
+                                    </View>
+
+                                    <Text>
+                                        Yom Hazikaron : « Notre peuple aspire à l’unité », déclare Naftali Bennett
+                                    </Text>
+
                                 </TouchableOpacity>
+
                             </View>
                         )
                     }}

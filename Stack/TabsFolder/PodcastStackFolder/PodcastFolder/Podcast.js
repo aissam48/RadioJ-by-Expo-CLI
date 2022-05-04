@@ -54,7 +54,7 @@ export default function Podcast({ navigation }) {
     return (
         <SafeAreaView style={{ flex: 1, flexDirection: 'column-reverse' }}>
 
-            <ScrollView nestedScrollEnabled>
+            <ScrollView nestedScrollEnabled={true}>
                 <View style={{ flex: 1, flexDirection: 'column' }}>
                     <View>
                         <Text style={{ color: '#1251A0', fontWeight: 'bold', marginTop: 50, marginStart: 20, fontSize: 40 }}>
@@ -66,17 +66,15 @@ export default function Podcast({ navigation }) {
                     </View>
 
                     <View>
-                        <Text style={{ color: '#000000', fontWeight: 'bold', marginTop: 50, marginStart: 20, fontSize: 25 }}>
-                            Filter
-                        </Text>
-                        <View style={{ marginTop: 10, width: '100%' }}>
+
+                        <View style={{ marginTop: 50, width: '100%' }}>
                             <TouchableOpacity
                                 onPress={() => {
 
                                     navigation.navigate('Podcasters')
 
                                 }}
-                                style={{ flexDirection: 'row', justifyContent: 'center', height: 50, borderRadius: 20, backgroundColor: '#29C5F6', marginStart: 20, marginEnd: 20 }}>
+                                style={{ flexDirection: 'row', justifyContent: 'center', height: 50, borderRadius: 20, backgroundColor: '#1251A0', marginStart: 20, marginEnd: 20 }}>
                                 <Text style={{ color: '#ffffff', fontWeight: 'bold', fontSize: 18, alignSelf: 'center' }}>
                                     {podcasterName == undefined ? 'Toutes' : podcasterName}
                                 </Text>
@@ -84,30 +82,40 @@ export default function Podcast({ navigation }) {
                         </View>
 
                         <View style={{ marginTop: 10, width: '100%' }}>
-                            <TextInput style={{ fontSize: 18, color: '#000000', margin: 20, height: 50, backgroundColor: '#ffffff', borderRadius: 20, paddingStart: 10, paddingEnd: 10 }} />
+                            <TextInput placeholder='Filtrer par titre...' style={{ fontSize: 18, color: '#000000', marginStart: 20, marginEnd: 20, marginTop: 10, marginBottom: 20, height: 50, backgroundColor: '#ffffff', borderRadius: 20, paddingStart: 10, paddingEnd: 10 }} />
                         </View>
 
                     </View>
 
                     <View style={{ alignSelf: 'center', flex: 1, width: '100%' }}>
                         <FlatList
-                            nestedScrollEnabled
+                            nestedScrollEnabled={true}
                             numColumns={2}
                             keyExtractor={(item, index) => index}
                             data={podcast}
-                            renderItem={({ item }) => (
-                                <TouchableOpacity
-                                    onPress={() => {
-                                        navigation.navigate('PodcastsPlayList')
-                                    }}
+                            renderItem={({ item }) => {
+                                return (
+                                    <View style={{ borderRadius: 10, flex: 1, height: 200, backgroundColor: "#ffffff", margin: 5 }}>
+                                        <TouchableOpacity
+                                            onPress={() => {
+                                                navigation.navigate('PodcastsPlayList')
+                                            }}
+                                            style={{ flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', height: '100%', width: '100%' }}
+                                        >
 
-                                    style={{ borderRadius: 20, flex: 1, flexDirection: 'column', alignSelf: 'center', margin: 5, height: 100, backgroundColor: '#ffffff' }}>
-                                    <View style={{ borderRadius: 20, flex: 1, flexDirection: 'column', alignSelf: 'center', margin: 5, height: 100, backgroundColor: '#ffffff' }}>
-                                        <Text style={{ alignItems: 'center' }}>{item}</Text>
+                                            <View style={{ backgroundColor: '#000000', height: '60%', width: '90%', borderRadius: 20, marginTop: 10 }}>
+                                                <Image source={require('../../../../assets/podimg.png')} style={{ borderRadius: 20, height: '100%', width: '100%' }} />
+                                            </View>
+
+                                            <Text>
+                                                Yom Hazikaron
+                                            </Text>
+
+                                        </TouchableOpacity>
+
                                     </View>
-                                </TouchableOpacity>
-
-                            )}
+                                )
+                            }}
                         />
                     </View>
 
