@@ -22,10 +22,12 @@ export default function PodcastStack() {
     var podcastData = useSelector(state => (
         state.playPodcast.podcastData
     ))
-    console.log(podcastData)
+
+    var intervalID = 0
 
     async function playSync() {
         try {
+
             Audio.setAudioModeAsync({
                 allowsRecordingIOS: false,
                 staysActiveInBackground: true,
@@ -46,27 +48,43 @@ export default function PodcastStack() {
 
             )
 
-            console.log('test')
-
             await sound.playAsync()
+
             await sound.getStatusAsync().then(result => {
+
+                //setDurationConverter
+
+                setSliderComplete(false)
+                setCurrentTime(0)
+                var minutes_ = Math.floor(result.durationMillis / 60000);
+                var seconds_ = ((result.durationMillis % 60000) / 1000).toFixed(0);
+                setDurationConverter(minutes_ + ":" + (seconds_ < 10 ? '0' : '') + seconds_)
 
                 setDuration(result.durationMillis)
                 setSound(sound)
-                var intervalID = setInterval(async () => {
+                var intervalID_ = setInterval(async () => {
 
                     sound.getStatusAsync().then(posCur => {
                         const p = JSON.stringify(posCur)
                         const l = JSON.parse(p)
                         setCurrentTime(l.positionMillis)
+                        setIntervalID(intervalID_)
+
+                        if (!posCur.isPlaying) {
+                            setPodcastIsPlaying(false)
+                        }
+
                         if (l.durationMillis == l.positionMillis) {
-                            clearInterval(intervalID)
+                            clearInterval(intervalID_)
                             //setIsPlaying('Empty')
-                            console.log('setIsPlaying(')
                             setPodcastIsPlaying(false)
                             setCurrentTime(0)
-
+                            setSliderComplete(true)
                         }
+
+                        var minutes = Math.floor(l.positionMillis / 60000);
+                        var seconds = ((l.positionMillis % 60000) / 1000).toFixed(0);
+                        setTimeConverter(minutes + ":" + (seconds < 10 ? '0' : '') + seconds)
                     })
                 }, 1000)
 
@@ -80,28 +98,34 @@ export default function PodcastStack() {
     }
 
     useEffect(() => {
-        console.log('inside Effect')
         switch (podcastData) {
             case 'Empty': {
-                console.log('Empty')
-
+                console.log('inside effect Empty')
                 break
             }
 
             default: {
-                console.log('default')
+
                 switch (JSON.parse(JSON.stringify(podcastData)).text) {
                     case isPlaying: {
-                        console.log('isPlaying')
+
                         break
                     }
 
                     default: {
+                        Audio.setIsEnabledAsync(false)
+                        setShowProgressBar(false)
+                        console.log('inside effect Default')
+                        clearInterval(intervalID)
+                        setDurationConverter('0:00')
+                        setTimeConverter('0:00')
+                        setSound(undefined)
+                        setCurrentTime(0)
+                        setDuration(0)
                         playSync()
                         setIsPlaying(JSON.parse(JSON.stringify(podcastData)).text)
                         setPodcastIsPlaying(true)
                     }
-
                 }
                 break
             }
@@ -115,6 +139,11 @@ export default function PodcastStack() {
     var [sound_, setSound] = useState(undefined)
     var [isPlaying, setIsPlaying] = useState('Empty')
     var [podcastIsPlaying, setPodcastIsPlaying] = useState(false)
+    var [timeConverter, setTimeConverter] = useState('00:00')
+    var [durationConverter, setDurationConverter] = useState('00:00')
+    var [sliderComplete, setSliderComplete] = useState(false)
+    var [intervalID, setIntervalID] = useState(0)
+    var [showProgressBar, setShowProgressBar] = useState(true)
 
 
     /**/
@@ -122,6 +151,19 @@ export default function PodcastStack() {
 
     var mySH = Dimensions.get('screen').height
 
+    /*function FunShowProgressBar() {
+        if (showProgressBar) {
+            return (
+                <View></View>
+            )
+
+        } else {
+            return (
+                
+            )
+
+        }
+    }*/
 
     return (
 
@@ -138,59 +180,101 @@ export default function PodcastStack() {
             </NavigationContainer>
 
             <View style={{ width: '100%', }}>
+                {
+                    showProgressBar == true ?
+                        <View></View> :
+                        <View style={{ width: '100%', }}>
 
-                <View style={{ justifyContent: 'space-between', flexDirection: 'column', backgroundColor: '#1251A0', height: 80, marginBottom: 10, marginEnd: 10, marginStart: 10, borderRadius: 20 }}>
-                    <View style={{ marginTop: 10, justifyContent: 'space-between', flexDirection: 'row', }}>
-                        <View style={{ flexDirection: 'row', backgroundColor: '#1251A0', height: '100%', borderRadius: 20 }}>
-                            <Image source={require('../../../assets/radiojlogo.png')} style={{ borderRadius: 10, height: 50, width: 50, alignSelf: 'center', marginStart: 15 }} />
-                            <View style={{ flexDirection: 'column', justifyContent: 'space-around' }}>
-                                <Text style={{ fontSize: 12, marginStart: 10, color: '#ffffff', fontWeight: 'bold' }}>Morning Show</Text>
-                                <Text style={{ fontSize: 12, marginStart: 10, color: '#ffffff', fontWeight: 'bold' }}>Aniston</Text>
-                                <Text style={{ fontSize: 12, marginStart: 10, color: '#ffffff', fontWeight: 'bold' }}>15:45</Text>
+                            <View style={{ justifyContent: 'space-between', flexDirection: 'column', backgroundColor: '#1251A0', height: 'auto', marginBottom: 10, marginEnd: 10, marginStart: 10, borderRadius: 20 }}>
+                                <View style={{ marginTop: 10, justifyContent: 'space-between', flexDirection: 'row', }}>
+                                    <View style={{ flexDirection: 'row', backgroundColor: '#1251A0', height: '100%', borderRadius: 20 }}>
+                                        <Image source={require('../../../assets/radiojlogo.png')} style={{ borderRadius: 10, height: 50, width: 50, alignSelf: 'center', marginStart: 15 }} />
+                                        <View style={{ flexDirection: 'column', justifyContent: 'space-around' }}>
+                                            <Text style={{ fontSize: 12, marginStart: 10, color: '#ffffff', fontWeight: 'bold' }}>Morning Show</Text>
+                                            <Text style={{ fontSize: 12, marginStart: 10, color: '#ffffff', fontWeight: 'bold' }}>Aniston</Text>
+                                        </View>
+
+                                    </View>
+
+                                    <TouchableOpacity
+                                        onPress={async () => {
+
+                                            //playSync()
+                                            switch (podcastIsPlaying) {
+                                                case true: {
+                                                    switch (sound_) {
+                                                        case undefined: {
+                                                            break
+                                                        }
+                                                        default: {
+                                                            await sound_.pauseAsync()
+
+                                                            setPodcastIsPlaying(false)
+                                                            break
+                                                        }
+                                                    }
+                                                    break
+                                                }
+
+                                                case false: {
+                                                    switch (sound_) {
+                                                        case undefined: {
+                                                            break
+                                                        }
+                                                        default: {
+                                                            switch (sliderComplete) {
+                                                                case true: {
+                                                                    playSync()
+                                                                    setPodcastIsPlaying(true)
+                                                                    break
+                                                                }
+
+                                                                case false: {
+                                                                    await sound_.playAsync()
+                                                                    setPodcastIsPlaying(true)
+                                                                    break
+                                                                }
+                                                            }
+
+                                                            break
+                                                        }
+                                                    }
+
+                                                    break
+                                                }
+                                            }
+                                        }}
+                                        style={{ alignSelf: 'center', height: 35, width: 35, marginEnd: 15 }}>
+                                        <Image source={podcastIsPlaying == false ? require('../../../assets/playradio.png') : require('../../../assets/pauseradio.png')} style={{ alignSelf: 'center', height: 35, width: 35, marginEnd: 15 }} />
+
+                                    </TouchableOpacity>
+                                </View>
+                                <Slider
+                                    maximumValue={duration}
+                                    minimumValue={0}
+                                    disabled={false}
+                                    value={currentTime}
+                                    minimumTrackTintColor="#ffffff"
+                                    maximumTrackTintColor="#ffffff"
+                                    thumbTintColor="#ffffff"
+                                    onValueChange={async (value) => {
+                                        if (sound_ != undefined) {
+                                            await sound_.setPositionAsync(value)
+                                        }
+                                    }}
+                                    style={{ width: '100%' }}
+                                />
+
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 }}>
+                                    <Text style={{ color: '#ffffff', marginStart: 20 }}>{timeConverter}</Text>
+                                    <Text style={{ color: '#ffffff', marginEnd: 20 }}>{durationConverter}</Text>
+                                </View>
+
                             </View>
-
                         </View>
-
-                        <TouchableOpacity
-                            onPress={async () => {
-
-                                ToastAndroid.show('ghfdjksnl,', ToastAndroid.show)
-                                //playSync()
-                                switch (podcastIsPlaying) {
-                                    case true: {
-                                        await sound_.pauseAsync()
-                                        setPodcastIsPlaying(false)
-                                        break
-                                    }
-
-                                    case false: {
-                                        await sound_.playAsync()
-                                        setPodcastIsPlaying(true)
-                                        break
-                                    }
-                                }
-                            }}
-                            style={{ alignSelf: 'center', height: 35, width: 35, marginEnd: 15 }}>
-                            <Image source={podcastIsPlaying == false ? require('../../../assets/playradio.png') : require('../../../assets/pauseradio.png')} style={{ alignSelf: 'center', height: 35, width: 35, marginEnd: 15 }} />
-
-                        </TouchableOpacity>
-                    </View>
-                    <Slider
-                        maximumValue={duration}
-                        minimumValue={0}
-                        disabled={false}
-                        value={currentTime}
-                        minimumTrackTintColor="#ffffff"
-                        maximumTrackTintColor="#ffffff"
-                        thumbTintColor="#ffffff"
-                        onValueChange={async (value) => {
-                            if (sound_ != undefined) {
-                                await sound_.setPositionAsync(value)
-                            }
-                        }}
-                        style={{ width: '100%' }} />
-                </View>
+                }
             </View>
+
         </View>
 
 

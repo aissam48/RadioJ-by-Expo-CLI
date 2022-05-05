@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, FlatList, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function Topics() {
+export default function Topics({ navigation }) {
 
     var [backColor, setBackColor] = useState('#1251A0')
 
@@ -60,6 +60,9 @@ export default function Topics() {
                         return (
                             <View style={{ borderRadius: 10, flex: 1, height: 200, backgroundColor: "#ffffff", margin: 5 }}>
                                 <TouchableOpacity
+                                    onPress={() => {
+                                        navigation.navigate('ReadTopic')
+                                    }}
                                     style={{ flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', height: '100%', width: '100%' }}
                                 >
 

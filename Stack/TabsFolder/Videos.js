@@ -71,11 +71,11 @@ export default function Videos({ navigation }) {
                                 const wi = Dimensions.get('screen').width
                                 return (
 
-                                    <TouchableOpacity style={{ flexDirection: 'column', alignSelf: 'center', width: wi - 20 }}>
+                                    <TouchableOpacity style={{ backgroundColor: '#ffffff', flexDirection: 'column', alignSelf: 'center', width: wi - 20, marginBottom: 15, padding: 10, borderRadius: 20 }}>
 
                                         <Image source={require('../../assets/pngvideo.jpg')} style={{ borderRadius: 20, height: 250, width: wi - 25, alignSelf: 'center' }} />
 
-                                        <View style={{ marginBottom: 25, flexDirection: 'row', justifyContent: 'space-between', width: wi - 35, alignSelf: 'center' }}>
+                                        <View style={{ marginBottom: 15, marginTop: 15, flexDirection: 'row', justifyContent: 'space-between', width: wi - 35, alignSelf: 'center' }}>
                                             <Text >lskdglksjfld,gdsklg, smeofkeso sdlkfqekof dsmlfkmq qùpfrkpose ljhi egpkfdsfmefjk</Text>
                                             <Text style={{ fontWeight: 'bold' }}>15:37</Text>
                                         </View>

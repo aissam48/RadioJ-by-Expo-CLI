@@ -10,17 +10,21 @@ export default function PodcastsPlayList({ navigation }) {
 
     const dispatch = useDispatch()
 
+    var [choosePodcast, setChoosePodcast] = useState({ titile: '', duration: '' })
+
+
     var [numLines, setNumLines] = useState(2)
     const listPodcasts = [
-        { titile: 'The Morning Show', duration: '07:30' },
-        { titile: 'The Morning Show', duration: '03:80' },
-        { titile: 'The Morning Show', duration: '01:30' },
-        { titile: 'The Morning Show', duration: '17:30' },
-        { titile: 'The Morning Show', duration: '18:40' },
-        { titile: 'The Morning Show', duration: '09:10' },
-        { titile: 'The Morning Show', duration: '03:00' },
-        { titile: 'The Morning Show', duration: '01:00' },
-        { titile: 'The Morning Show', duration: '10:30' },
+        { titile: 'The Morning Show', duration: '07:30', sound: 'https://www2.cs.uic.edu/~i101/SoundFiles/BabyElephantWalk60.wav' },
+        { titile: 'The Morning Show', duration: '03:80', sound: 'https://www2.cs.uic.edu/~i101/SoundFiles/ImperialMarch60.wav' },
+        { titile: 'The Morning Show', duration: '01:30', sound: 'https://www2.cs.uic.edu/~i101/SoundFiles/PinkPanther60.wav' },
+
+    ]
+
+    const listSounds = [
+        'https://www2.cs.uic.edu/~i101/SoundFiles/BabyElephantWalk60.wav',
+        'https://www2.cs.uic.edu/~i101/SoundFiles/ImperialMarch60.wav',
+        'https://www2.cs.uic.edu/~i101/SoundFiles/PinkPanther60.wav'
     ]
 
 
@@ -108,31 +112,36 @@ export default function PodcastsPlayList({ navigation }) {
                             data={listPodcasts}
                             renderItem={({ item }) => {
 
-                                var count = 1
+                                var count = 0
+
+                                // white #ffffff
+                                // blue #1251A0
 
                                 return (
 
                                     <View style={{ width: '100%' }}>
 
-                                        <View style={{ marginStart: 20, marginEnd: 20, marginTop: 5, flexDirection: 'row', justifyContent: 'space-between', backgroundColor: '#ffffff', height: 70, borderRadius: 15 }}>
+                                        <View style={{ marginStart: 20, marginEnd: 20, marginTop: 5, flexDirection: 'row', justifyContent: 'space-between', backgroundColor: choosePodcast.duration == item.duration && choosePodcast.titile == item.titile ? '#1251A0' : '#ffffff', height: 70, borderRadius: 15 }}>
                                             <View style={{ flexDirection: 'column', justifyContent: 'space-around' }}>
-                                                <Text style={{ marginStart: 15 }}>{item.titile}</Text>
-                                                <Text style={{ marginStart: 15 }}>{item.duration}</Text>
+                                                <Text style={{ marginStart: 15, color: choosePodcast.duration == item.duration && choosePodcast.titile == item.titile ? '#ffffff' : '#000000' }}>{item.titile}</Text>
+                                                <Text style={{ marginStart: 15, color: choosePodcast.duration == item.duration && choosePodcast.titile == item.titile ? '#ffffff' : '#000000' }}>{item.duration}</Text>
                                             </View>
 
                                             <TouchableOpacity
                                                 style={{ alignSelf: 'center' }}
                                                 onPress={() => {
-
+                                                    setChoosePodcast(item)
+                                                    if (count == 2) {
+                                                        count = 0
+                                                    }
                                                     count = count + 1
-                                                    console.log(count)
 
-                                                    dispatch({ type: 'playThis', podcastData: { text: 'https://www2.cs.uic.edu/~i101/SoundFiles/CantinaBand60.wav', nu: count } })
-                                                    //navigation.navigate('PlayPodcast')
+                                                    var sound = listSounds[count]
+
+                                                    dispatch({ type: 'playThis', podcastData: { text: item.sound, nu: count } })
                                                 }}
                                             >
-                                                <View style={{ backgroundColor: '#1251A0', height: 40, width: 40, alignSelf: 'center', justifyContent: 'center', alignItems: 'center', borderRadius: 100, marginEnd: 15 }}>
-
+                                                <View style={{ backgroundColor: choosePodcast.duration == item.duration && choosePodcast.titile == item.titile ? '#000000' : '#1251A0', height: 40, width: 40, alignSelf: 'center', justifyContent: 'center', alignItems: 'center', borderRadius: 100, marginEnd: 15 }}>
                                                     <Image source={require('../../../../assets/playradio.png')} style={{ height: 20, width: 20 }} />
                                                 </View>
                                             </TouchableOpacity>
