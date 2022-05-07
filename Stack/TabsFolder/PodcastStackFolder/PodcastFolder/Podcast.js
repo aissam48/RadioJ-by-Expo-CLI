@@ -14,17 +14,17 @@ import BottomSheet from '@gorhom/bottom-sheet';
 export default function Podcast({ navigation }) {
 
     var podcast = [
-        'fdlkfdk',
-        'lsngfkls',
-        'lsngfkls',
-        'lsngfkls',
-        'lsngfkls',
-        'lsngfkls',
-        'lsngfkls',
-        'lsngfkls',
-        'lsngfkls',
-        'lsngfkls',
-        'lsngfkls',
+        'Apple',
+        'Microsoft',
+        'Google',
+        'Facebook',
+        'Airbnb',
+        'Uber',
+        'Amazon',
+        'Ebay',
+        'IBM',
+        'Dell',
+        'HP',
     ]
 
     var podcasterName = useSelector(state => (
@@ -50,6 +50,7 @@ export default function Podcast({ navigation }) {
     var [currentTime, setCurrentTime] = useState(0)
     var [position, setPosition] = useState(0)
     var [sound_, setSound] = useState()
+    var [newList, setNewList] = useState(podcast)
 
     return (
         <SafeAreaView style={{ flex: 1, flexDirection: 'column-reverse' }}>
@@ -82,7 +83,18 @@ export default function Podcast({ navigation }) {
                         </View>
 
                         <View style={{ marginTop: 10, width: '100%' }}>
-                            <TextInput placeholder='Filtrer par titre...' style={{ fontSize: 18, color: '#000000', marginStart: 20, marginEnd: 20, marginTop: 10, marginBottom: 20, height: 50, backgroundColor: '#ffffff', borderRadius: 20, paddingStart: 10, paddingEnd: 10 }} />
+                            <TextInput
+                                placeholder='Filtrer par titre...'
+                                style={{ fontSize: 18, color: '#000000', marginStart: 20, marginEnd: 20, marginTop: 10, marginBottom: 20, height: 50, backgroundColor: '#ffffff', borderRadius: 20, paddingStart: 10, paddingEnd: 10 }}
+                                onChangeText={(text) => {
+                                    console.log(text)
+                                    var myList = podcast.filter((item) => (
+                                        item.includes(text)
+                                    ))
+
+                                    setNewList(myList)
+                                }}
+                            />
                         </View>
 
                     </View>
@@ -92,7 +104,7 @@ export default function Podcast({ navigation }) {
                             nestedScrollEnabled={true}
                             numColumns={2}
                             keyExtractor={(item, index) => index}
-                            data={podcast}
+                            data={newList}
                             renderItem={({ item }) => {
                                 return (
                                     <View style={{ borderRadius: 10, flex: 1, height: 200, backgroundColor: "#ffffff", margin: 5 }}>
@@ -108,7 +120,7 @@ export default function Podcast({ navigation }) {
                                             </View>
 
                                             <Text>
-                                                Yom Hazikaron
+                                                {item}
                                             </Text>
 
                                         </TouchableOpacity>

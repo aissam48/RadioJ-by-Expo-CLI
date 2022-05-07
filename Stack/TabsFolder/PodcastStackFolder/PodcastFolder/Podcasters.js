@@ -24,7 +24,7 @@ export default function Podcasters({ navigation }) {
         "fdbgd99fdfb",
     ]
 
-    var [list, setList] = useState(listPodcasters)
+    var [newList, setNewList] = useState(listPodcasters)
 
     const dispatch = useDispatch()
 
@@ -51,18 +51,11 @@ export default function Podcasters({ navigation }) {
                     placeholder='Trouver un(e) journalist(e)...'
                     style={{ fontSize: 18, color: '#000000', margin: 20, height: 50, backgroundColor: '#ffffff', borderRadius: 20, paddingStart: 10, paddingEnd: 10 }}
                     onChangeText={(text) => {
-                        switch (text.length) {
-                            case 0: {
-                                setList(listPodcasters)
-                                break
-                            }
-                            default: {
-                                setList(listPodcasters.forEach((item_) =>
-                                    item_.includes(text)
-                                ))
-                                break
-                            }
-                        }
+                        var myList = listPodcasters.filter((item) => (
+                            item.includes(text)
+                        ))
+
+                        setNewList(myList)
                     }}
                 />
             </View>
@@ -70,7 +63,7 @@ export default function Podcasters({ navigation }) {
             <View style={{ flex: 1 }}>
                 <FlatList
                     keyExtractor={(item, index) => index}
-                    data={list}
+                    data={newList}
                     renderItem={({ item }) => {
                         return (
                             <View style={{ paddingTop: 15, paddingBottom: 15, marginTop: 5, flex: 1, backgroundColor: 'white', marginStart: 20, marginEnd: 20, borderRadius: 20 }}>

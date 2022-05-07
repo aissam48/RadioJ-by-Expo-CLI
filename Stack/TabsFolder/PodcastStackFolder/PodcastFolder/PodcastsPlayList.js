@@ -141,8 +141,8 @@ export default function PodcastsPlayList({ navigation }) {
                                                     dispatch({ type: 'playThis', podcastData: { text: item.sound, nu: count } })
                                                 }}
                                             >
-                                                <View style={{ backgroundColor: choosePodcast.duration == item.duration && choosePodcast.titile == item.titile ? '#000000' : '#1251A0', height: 40, width: 40, alignSelf: 'center', justifyContent: 'center', alignItems: 'center', borderRadius: 100, marginEnd: 15 }}>
-                                                    <Image source={require('../../../../assets/playradio.png')} style={{ height: 20, width: 20 }} />
+                                                <View style={{ backgroundColor: choosePodcast.duration == item.duration && choosePodcast.titile == item.titile ? '#ffffff' : '#1251A0', height: 40, width: 40, alignSelf: 'center', justifyContent: 'center', alignItems: 'center', borderRadius: 100, marginEnd: 15 }}>
+                                                    <Image source={choosePodcast.duration == item.duration && choosePodcast.titile == item.titile ? require('../../../../assets/playblue.png') : require('../../../../assets/playradio.png')} style={{ height: 20, width: 20 }} />
                                                 </View>
                                             </TouchableOpacity>
 

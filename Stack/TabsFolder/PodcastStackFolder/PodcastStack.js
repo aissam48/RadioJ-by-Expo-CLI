@@ -82,6 +82,7 @@ export default function PodcastStack() {
                             setSliderComplete(true)
                         }
 
+
                         var minutes = Math.floor(l.positionMillis / 60000);
                         var seconds = ((l.positionMillis % 60000) / 1000).toFixed(0);
                         setTimeConverter(minutes + ":" + (seconds < 10 ? '0' : '') + seconds)
@@ -151,20 +152,6 @@ export default function PodcastStack() {
 
     var mySH = Dimensions.get('screen').height
 
-    /*function FunShowProgressBar() {
-        if (showProgressBar) {
-            return (
-                <View></View>
-            )
-
-        } else {
-            return (
-                
-            )
-
-        }
-    }*/
-
     return (
 
         <View style={{ flex: 1, }}>
@@ -230,6 +217,8 @@ export default function PodcastStack() {
                                                                 }
 
                                                                 case false: {
+                                                                    Audio.setIsEnabledAsync(false)
+                                                                    Audio.setIsEnabledAsync(true)
                                                                     await sound_.playAsync()
                                                                     setPodcastIsPlaying(true)
                                                                     break

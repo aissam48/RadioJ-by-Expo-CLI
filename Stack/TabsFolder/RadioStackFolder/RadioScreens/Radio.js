@@ -36,6 +36,7 @@ export default function Radio() {
     });
 
     async function playRadio() {
+        await Audio.setIsEnabledAsync(false)
         await Audio.setIsEnabledAsync(true)
         const { sound } = await Audio.Sound.createAsync({
             uri: 'https://listen.radioking.com/radio/261427/stream/306436'
@@ -56,7 +57,7 @@ export default function Radio() {
 
     async function stopRadio() {
         setRadio(undefined)
-        await Audio.setIsEnabledAsync(false)
+        await radio.pauseAsync()
     }
 
     var listSoir = [
@@ -162,7 +163,7 @@ export default function Radio() {
                                 disabled={clickAble}
                                 onPress={async () => {
                                     setClickAble(true)
-                                    await Audio.setIsEnabledAsync(false)
+                                    //await radio.pauseAsync()
                                     switch (isPlaying) {
                                         case true: {
                                             isPlaying = false
